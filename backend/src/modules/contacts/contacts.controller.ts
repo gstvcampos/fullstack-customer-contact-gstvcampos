@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Patch,
   Post,
@@ -42,6 +43,7 @@ export class ContactsController {
     return this.contactsService.update(userId, id, updateContactDto);
   }
 
+  @HttpCode(204)
   @Delete(':id')
   remove(@Param('userId') userId: string, @Param('id') id: string) {
     return this.contactsService.remove(userId, id);

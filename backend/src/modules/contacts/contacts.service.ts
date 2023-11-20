@@ -1,4 +1,4 @@
-import { HttpCode, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma.service';
 import { UsersService } from '../users/users.service';
 import { CreateContactDto } from './dto/create-contact.dto';
@@ -20,9 +20,7 @@ export class ContactsService {
     });
     await this.prisma.contact.create({
       data: {
-        id: contact.id,
-        email: contact.email,
-        phone: contact.phone,
+        ...contact,
         fullName: user.fullName,
         userId: user.id,
       },
@@ -44,9 +42,7 @@ export class ContactsService {
     const contact = await this.prisma.contact.findUnique({
       where: { userId: userId, id: id },
     });
-    if (!contact) {
-      throw new NotFoundException('Contact not found');
-    }
+    if (!contact) throw new NotFoundException('Contact not found');
     return contact;
   }
 
@@ -62,12 +58,9 @@ export class ContactsService {
     return updateContact;
   }
 
-  @HttpCode(204)
   async remove(userId: string, id: string) {
     await this.userService.findUserOrError(userId);
     await this.findOne(userId, id);
-    await this.prisma.contact.delete({
-      where: { userId: userId, id: id },
-    });
+    await this.prisma.contact.delete({ where: { id } });
   }
 }

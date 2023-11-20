@@ -27,7 +27,7 @@ model Contact {
   fullName  String
   email     String
   phone     String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   createdAt DateTime @default(now()) @map("_createdAt")
 

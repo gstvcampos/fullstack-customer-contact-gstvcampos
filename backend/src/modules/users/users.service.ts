@@ -1,6 +1,5 @@
 import {
   ConflictException,
-  HttpCode,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -19,15 +18,7 @@ export class UsersService {
     Object.assign(user, {
       ...createUserDto,
     });
-    await this.prisma.user.create({
-      data: {
-        id: user.id,
-        email: user.email,
-        password: user.password,
-        fullName: user.fullName,
-        phone: user.phone,
-      },
-    });
+    await this.prisma.user.create({ data: { ...user } });
     return plainToInstance(User, user);
   }
 
@@ -51,21 +42,14 @@ export class UsersService {
     return plainToInstance(User, updateUser);
   }
 
-  @HttpCode(204)
   async remove(id: string) {
     await this.findUserOrError(id);
-    await this.prisma.user.delete({
-      where: { id },
-    });
+    await this.prisma.user.delete({ where: { id } });
   }
 
   async findUserOrError(id: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-    });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) throw new NotFoundException('User not found');
     return user;
   }
 
@@ -76,8 +60,6 @@ export class UsersService {
 
   async findUniqueEmail(dtoEmail: string) {
     const findUser = await this.findByEmail(dtoEmail);
-    if (findUser) {
-      throw new ConflictException('Email already exists');
-    }
+    if (findUser) throw new ConflictException('Email already exists');
   }
 }
