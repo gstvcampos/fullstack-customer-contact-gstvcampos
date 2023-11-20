@@ -11,16 +11,9 @@ export class ContactsService {
     private userService: UsersService,
     private prisma: PrismaService,
   ) {}
-  async findUser(userId: string) {
-    const user = await this.userService.findOne(userId);
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    return user;
-  }
-
   async create(userId: string, createContactDto: CreateContactDto) {
-    const user = await this.findUser(userId);
+    await this.userService.findUniqueEmail(createContactDto.email);
+    const user = await this.userService.findUserOrError(userId);
     const contact = new Contact();
     Object.assign(contact, {
       ...createContactDto,
@@ -39,7 +32,7 @@ export class ContactsService {
   }
 
   async findAll(userId: string) {
-    await this.findUser(userId);
+    await this.userService.findUserOrError(userId);
     const contacts = await this.prisma.contact.findMany({
       where: { userId: userId },
     });
@@ -47,7 +40,7 @@ export class ContactsService {
   }
 
   async findOne(userId: string, id: string) {
-    await this.findUser(userId);
+    await this.userService.findUserOrError(userId);
     const contact = await this.prisma.contact.findUnique({
       where: { userId: userId, id: id },
     });
@@ -58,7 +51,8 @@ export class ContactsService {
   }
 
   async update(userId: string, id: string, updateContactDto: UpdateContactDto) {
-    await this.findUser(userId);
+    await this.userService.findUserOrError(userId);
+    await this.userService.findUniqueEmail(updateContactDto.email);
     await this.findOne(userId, id);
     const updateContact = await this.prisma.contact.update({
       where: { userId: userId, id: id },
@@ -70,7 +64,7 @@ export class ContactsService {
 
   @HttpCode(204)
   async remove(userId: string, id: string) {
-    await this.findUser(userId);
+    await this.userService.findUserOrError(userId);
     await this.findOne(userId, id);
     await this.prisma.contact.delete({
       where: { userId: userId, id: id },

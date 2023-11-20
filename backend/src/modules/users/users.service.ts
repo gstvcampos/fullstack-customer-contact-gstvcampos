@@ -13,24 +13,8 @@ import { User } from './entities/user.entity';
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
-
-  async findUserOrError(id: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-    });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-    return user;
-  }
-
   async create(createUserDto: CreateUserDto) {
-    const findUser = await this.prisma.user.findFirst({
-      where: { email: createUserDto.email },
-    });
-    if (findUser) {
-      throw new ConflictException('Email already exists');
-    }
+    await this.findUniqueEmail(createUserDto.email);
     const user = new User();
     Object.assign(user, {
       ...createUserDto,
@@ -52,11 +36,6 @@ export class UsersService {
     return plainToInstance(User, users);
   }
 
-  async findByEmail(email: string) {
-    const user = await this.prisma.user.findUnique({ where: { email } });
-    return user;
-  }
-
   async findOne(id: string) {
     const user = await this.findUserOrError(id);
     return plainToInstance(User, user);
@@ -64,6 +43,7 @@ export class UsersService {
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     await this.findUserOrError(id);
+    await this.findUniqueEmail(updateUserDto.email);
     const updateUser = await this.prisma.user.update({
       where: { id },
       data: { ...updateUserDto },
@@ -77,5 +57,27 @@ export class UsersService {
     await this.prisma.user.delete({
       where: { id },
     });
+  }
+
+  async findUserOrError(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    return user;
+  }
+
+  async findUniqueEmail(dtoEmail: string) {
+    const findUser = await this.findByEmail(dtoEmail);
+    if (findUser) {
+      throw new ConflictException('Email already exists');
+    }
   }
 }
