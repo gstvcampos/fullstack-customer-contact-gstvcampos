@@ -25,7 +25,6 @@ export class ContactsService {
         userId: user.id,
       },
     });
-    await this.userService.update(userId, createContactDto);
     return contact;
   }
 
@@ -35,15 +34,6 @@ export class ContactsService {
       where: { userId: userId },
     });
     return contacts;
-  }
-
-  async findOne(userId: string, id: string) {
-    await this.userService.findUserOrError(userId);
-    const contact = await this.prisma.contact.findUnique({
-      where: { userId: userId, id: id },
-    });
-    if (!contact) throw new NotFoundException('Contact not found');
-    return contact;
   }
 
   async update(userId: string, id: string, updateContactDto: UpdateContactDto) {
@@ -62,5 +52,14 @@ export class ContactsService {
     await this.userService.findUserOrError(userId);
     await this.findOne(userId, id);
     await this.prisma.contact.delete({ where: { id } });
+  }
+
+  async findOne(userId: string, id: string) {
+    await this.userService.findUserOrError(userId);
+    const contact = await this.prisma.contact.findUnique({
+      where: { userId: userId, id: id },
+    });
+    if (!contact) throw new NotFoundException('Contact not found');
+    return contact;
   }
 }

@@ -7,16 +7,19 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 import { ContactsService } from './contacts.service';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
 
-@Controller('users/:userId/contacts')
+@Controller('users/contacts')
 export class ContactsController {
   constructor(private readonly contactsService: ContactsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   create(
     @Param('userId') userId: string,
     @Body() createContactDto: CreateContactDto,
@@ -25,13 +28,9 @@ export class ContactsController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll(@Param('userId') userId: string) {
     return this.contactsService.findAll(userId);
-  }
-
-  @Get(':id')
-  findOne(@Param('userId') userId: string, @Param('id') id: string) {
-    return this.contactsService.findOne(userId, id);
   }
 
   @Patch(':id')
