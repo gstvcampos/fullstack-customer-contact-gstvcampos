@@ -27,7 +27,7 @@ export default async function Home() {
           </header>
           <ul className="h-5/6 overflow-y-auto border-4 rounded-md">
             {users.map((user: User)=> (
-              <UserLi user={user}/>
+              <UserLi key={user.id} user={user}/>
             ))}
           </ul>        
         </div>
