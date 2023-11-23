@@ -4,16 +4,35 @@ interface EditClientProps {
   }
 }
 
+export interface User {
+  id: string;
+  email: string;
+  fullName: string;
+  phone: string;
+  createdAt: string;
+}
+
+export interface Contact {
+  id: string;
+  email: string;
+  fullName: string;
+  phone: string;
+  createdAt: string;
+}
+
 export default async function Edit({params}: EditClientProps) {
-  const client = await fetch(`https://customer-contact.onrender.com/users/${params.id}`,{
+  const resClient = await fetch(`https://customer-contact.onrender.com/users/${params.id}`,{
     cache: 'no-store'
   })
 
-  const contacts = await fetch('https://customer-contact.onrender.com/users',{
+  const resCont = await fetch(`https://customer-contact.onrender.com/users/${params.id}/contacts`,{
     cache: 'no-store'
   })
 
-  console.log(params.id)
+  const client = await resClient.json()
+
+  const contacts = await resCont.json()
+
   return(
     <main className="flex h-screen justify-center items-center bg-neutral-950">
         <div className="h-5/6 w-96 border rounded-md">
@@ -21,8 +40,8 @@ export default async function Edit({params}: EditClientProps) {
             <h1 className="text-3xl">Lista de contatos</h1>
           </header>
           <ul className="h-5/6 overflow-y-auto border-4 rounded-md">
-            {users.map((user: User)=> (
-              <UserLi key={user.id} user={user}/>
+            {contacts.map((contact)=> (
+              <ContactLi key={contact.id} contact={contact}/>
             ))}
           </ul> 
         </div>
