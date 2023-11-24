@@ -1,15 +1,19 @@
-import { DialogProvider } from "@/contexts/DialogContext";
-import DeleteEditButton from "./buttons/DeleteEditButton";
+import { Contact } from '@/app/edit/[id]/page'
+import { DialogProvider } from '@/contexts/DialogContext'
+import DelEditContactBtn from './buttons/DelEditContactBtn'
 
-export default function ContactLi({contact}: {contact: Contact}){
-  return(
-    <li key={contact.id} className="flex justify-between items-center h-20 m-2 p-5 rounded-md border">
+export default function ContactLi({ contact }: { contact: Contact }) {
+  return (
+    <li
+      key={contact.id}
+      className="m-2 flex h-20 items-center justify-between rounded-md border p-5"
+    >
       <div>
-        <p>{contact.fullName}</p>
-        <p>{contact.email}</p>
+        <p className='text-sm'>{contact.email}</p>
+        <p className='text-sm'>{contact.phone}</p>
       </div>
       <DialogProvider>
-        <DeleteEditButton userId={contact.id}/>
+        <DelEditContactBtn userId={contact.userId} contactId={contact.id} />
       </DialogProvider>
     </li>
   )

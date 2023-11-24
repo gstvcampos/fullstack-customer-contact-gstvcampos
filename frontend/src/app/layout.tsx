@@ -7,12 +7,10 @@ export const metadata: Metadata = {
   description: 'Crud de clientes',
 }
 
-export default function RootLayout({children}: {children: ReactNode}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className="h-screen">
-        {children}
-      </body>
+      <body className="h-screen">{children}</body>
     </html>
   )
 }

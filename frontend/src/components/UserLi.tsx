@@ -1,16 +1,19 @@
-import { User } from "@/app/page";
-import { DialogProvider } from "@/contexts/DialogContext";
-import DeleteEditButton from "./buttons/DeleteEditButton";
+import { User } from '@/app/page'
+import { DialogProvider } from '@/contexts/DialogContext'
+import DelEditClientBtn from './buttons/DelEditClientBtn'
 
-export default function UserLi({user}: {user: User}){
-  return(
-    <li key={user.id} className="flex justify-between items-center h-20 m-2 p-5 rounded-md border">
+export default function UserLi({ user }: { user: User }) {
+  return (
+    <li
+      key={user.id}
+      className="m-2 flex h-20 items-center justify-between rounded-md border p-5"
+    >
       <div>
-        <p>{user.fullName}</p>
-        <p>{user.email}</p>
+        <p className='text-sm'>{user.fullName}</p>
+        <p className='text-sm'>{user.email}</p>
       </div>
       <DialogProvider>
-        <DeleteEditButton userId={user.id}/>
+        <DelEditClientBtn userId={user.id} />
       </DialogProvider>
     </li>
   )
