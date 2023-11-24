@@ -18,23 +18,58 @@ export default function EditClientModal({ userId }: { userId: string }) {
       {openEditClient && (
         <div className="fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-50">
           <div className="flex min-h-screen items-center justify-center">
-            <div className="rounded-lg bg-zinc-800 p-6">
-              <h3 className="text-xl font-semibold text-white">
-                Editar cliente
+            <div className="rounded-lg bg-white p-6">
+              <h3 className="mb-4 text-center text-xl font-bold text-gray-700">
+                Adicionar cliente
               </h3>
-
-              <div className="m-3 flex justify-between">
+              <form>
+                <div className="mb-4">
+                  <label className="font-bold text-gray-700">
+                    Nome completo
+                  </label>
+                  <input
+                    className="mt-1 w-full rounded-md border p-2"
+                    type="text"
+                    placeholder="Nome completo"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="font-bold text-gray-700">Email</label>
+                  <input
+                    className="mt-1 w-full rounded-md border p-2"
+                    type="text"
+                    placeholder="Email"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="font-bold text-gray-700">Senha</label>
+                  <input
+                    className="mt-1 w-full rounded-md border p-2"
+                    type="password"
+                    placeholder="Senha"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="font-bold text-gray-700">Telefone</label>
+                  <input
+                    className="mt-1 w-full rounded-md border p-2"
+                    type="text"
+                    placeholder="Telefone"
+                  />
+                </div>
+              </form>
+              <div className="mt-4 flex justify-between">
                 <button
-                  className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                  className="rounded bg-red-200 px-4 py-2 text-white hover:bg-red-700"
                   onClick={toggleEditClient}
                 >
                   Cancelar
                 </button>
                 <button
-                  className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                  className="rounded bg-green-200 px-4 py-2 text-white hover:bg-red-700"
                   onClick={() => handleEdit(userId)}
                 >
-                  Editar
+                  Adicionar
                 </button>
               </div>
             </div>

@@ -9,8 +9,8 @@ export default function UserLi({ user }: { user: User }) {
       className="m-2 flex h-20 items-center justify-between rounded-md border p-5"
     >
       <div>
-        <p className='text-sm'>{user.fullName}</p>
-        <p className='text-sm'>{user.email}</p>
+        <p className="text-sm">{user.fullName}</p>
+        <p className="text-sm">{user.email}</p>
       </div>
       <DialogProvider>
         <DelEditClientBtn userId={user.id} />

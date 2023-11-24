@@ -16,7 +16,7 @@ export default function DelEditClientBtn({ userId }: { userId: string }) {
         <FaUserEdit size={20} />
       </Link>
       <button className="m-1 " onClick={toggleDelClient}>
-        <IoPersonRemoveSharp size={20}/>
+        <IoPersonRemoveSharp size={20} />
       </button>
       <DeleteUserModal userId={userId} />
     </div>

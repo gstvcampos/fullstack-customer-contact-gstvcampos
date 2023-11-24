@@ -2,6 +2,8 @@ import ContactLi from '@/components/ContactLi'
 import AddContactBtn from '@/components/buttons/AddContactBtn'
 import EditClientBtn from '@/components/buttons/EditClientBtn'
 import { DialogProvider } from '@/contexts/DialogContext'
+import { PiKeyReturnBold } from 'react-icons/pi'
+import Link from 'next/link'
 
 interface EditClientProps {
   params: {
@@ -49,7 +51,7 @@ export default async function Edit({ params }: EditClientProps) {
     <main className="flex h-screen items-center justify-center bg-neutral-950">
       <div className="h-5/6 w-96 rounded-md border bg-white p-4">
         <header className="mb-6">
-          <div className='flex items-center justify-between'>
+          <div className="flex items-center justify-between">
             <h1 className="mb-2 text-xl font-bold text-gray-700">
               Informações do Cliente
             </h1>
@@ -71,18 +73,26 @@ export default async function Edit({ params }: EditClientProps) {
           </div>
         </header>
         <div className="mb-6 flex items-center justify-between rounded-md bg-gray-50 p-4">
-          <h2 className="font-bold text-gray-700">Adicionar outros Contatos</h2>
+          <h2 className="font-bold text-gray-700">Adicionar contato</h2>
           <DialogProvider>
             <AddContactBtn userId={client.id} />
           </DialogProvider>
         </div>
         <div className="h-1/2 rounded-md border-4 p-4">
           <h2 className="mb-2 font-bold text-gray-700">Outros contatos</h2>
-          <ul className='h-5/6 overflow-y-auto'>
+          <ul className="h-5/6 overflow-y-auto">
             {contacts.map((contact) => (
               <ContactLi key={contact.id} contact={contact} />
             ))}
           </ul>
+        </div>
+        <div className="m-6 flex items-center justify-between">
+          <h1 className="mb-2 text-xl font-bold text-gray-700">
+            Retornar ao menu
+          </h1>
+          <Link href={'/'}>
+            <PiKeyReturnBold size={25} />
+          </Link>
         </div>
       </div>
     </main>

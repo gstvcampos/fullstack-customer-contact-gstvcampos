@@ -2,7 +2,7 @@
 
 import { DialogContext } from '@/contexts/DialogContext'
 import { useContext } from 'react'
-import { IoIosAddCircle } from 'react-icons/io'
+import { IoPersonAdd } from 'react-icons/io5'
 import AddClientModal from '../modals/AddClientModal'
 
 export default function AddClientBtn() {
@@ -11,9 +11,9 @@ export default function AddClientBtn() {
   return (
     <>
       <button onClick={toggleAddClient}>
-        <IoIosAddCircle size={25} />
+        <IoPersonAdd size={25} />
       </button>
-      <AddClientModal/>
+      <AddClientModal />
     </>
   )
 }

@@ -27,14 +27,14 @@ export default function DeleteContModal({
       {openDelContact && (
         <div className="fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-50">
           <div className="flex min-h-screen items-center justify-center">
-            <div className="rounded-lg bg-zinc-800 p-6">
-              <h3 className="text-xl font-semibold text-white">
+            <div className="rounded-lg bg-white p-6">
+              <h3 className="mb-4 text-xl font-bold text-gray-700">
                 Excluir Contato
               </h3>
-              <p className="text-sm text-white">
+              <p className="mb-4 text-sm text-gray-600">
                 Tem certeza de que quer excluir esse contato?
               </p>
-              <div className="m-3 flex justify-between">
+              <div className="flex justify-between">
                 <button
                   className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
                   onClick={toggleDelContact}

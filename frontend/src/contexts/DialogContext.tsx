@@ -65,7 +65,7 @@ export function DialogProvider({ children }: { children: ReactNode }) {
         openDelContact,
         toggleDelContact,
         openAddClient,
-        toggleAddClient
+        toggleAddClient,
       }}
     >
       {children}
