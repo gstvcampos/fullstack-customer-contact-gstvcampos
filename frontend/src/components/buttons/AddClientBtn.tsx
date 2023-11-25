@@ -9,11 +9,11 @@ export default function AddClientBtn() {
   const { toggleAddClient } = useContext(DialogContext)
 
   return (
-    <>
+    <div>
       <button onClick={toggleAddClient}>
         <IoPersonAdd size={25} />
       </button>
       <AddClientModal />
-    </>
+    </div>
   )
 }

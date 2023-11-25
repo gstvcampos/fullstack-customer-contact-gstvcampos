@@ -1,19 +1,34 @@
 'use client'
 
 import { DialogContext } from '@/contexts/DialogContext'
+import { api } from '@/services/api'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+export const createShema = z.object({
+  email: z.string().email('Formato de email invalido'),
+  phone: z.string().min(8, 'minimo 8 caracteres'),
+})
+
+type CreateShema = z.infer<typeof createShema>
 
 export default function AddContModal({ userId }: { userId: string }) {
   const { openAddContact, toggleAddContact } = useContext(DialogContext)
 
-  const handleAdd = async (userId: string) => {
-    await fetch(
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CreateShema>({ resolver: zodResolver(createShema) })
+
+  const handleAdd = async (data: CreateShema) => {
+    await api.post(
       `https://customer-contact.onrender.com/users/${userId}/contacts/`,
-      {
-        method: 'POST',
-      },
+      data,
     )
-    window.location.reload()
+    toggleAddContact()
   }
 
   return (
@@ -21,42 +36,60 @@ export default function AddContModal({ userId }: { userId: string }) {
       {openAddContact && (
         <div className="fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-50">
           <div className="flex min-h-screen items-center justify-center">
-            <div className="rounded-lg bg-white p-6">
-              <h3 className="mb-4 text-xl font-bold text-gray-700">
+            <div className="rounded-lg bg-zinc-900 p-6">
+              <h3 className="mb-4 text-center text-xl font-bold text-gray-300">
                 Adicionar contato
               </h3>
-              <form>
+              <form onSubmit={handleSubmit(handleAdd)}>
                 <div className="mb-4">
-                  <label className="font-bold text-gray-700">Email</label>
+                  <label className="font-bold text-gray-300">Email</label>
                   <input
-                    className="mt-1 w-full rounded-md border p-2"
+                    {...register('email')}
+                    required
+                    className="mt-1 w-full rounded-md border bg-zinc-800 p-2"
                     type="text"
                     placeholder="Email"
                   />
+                  {errors.email ? (
+                    <p className="text-xs text-red-600">
+                      {errors.email.message}
+                    </p>
+                  ) : (
+                    <p></p>
+                  )}
                 </div>
                 <div className="mb-4">
-                  <label className="font-bold text-gray-700">Telefone</label>
+                  <label className="font-bold text-gray-300">Telefone</label>
                   <input
-                    className="mt-1 w-full rounded-md border p-2"
+                    {...register('phone')}
+                    required
+                    className="mt-1 w-full rounded-md border bg-zinc-800 p-2"
                     type="text"
                     placeholder="Telefone"
                   />
+                  {errors.phone ? (
+                    <p className="text-xs text-red-600">
+                      {errors.phone.message}
+                    </p>
+                  ) : (
+                    <p></p>
+                  )}
+                </div>
+                <div className="mt-4 flex justify-between">
+                  <button
+                    className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-900"
+                    onClick={toggleAddContact}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-900"
+                    type="submit"
+                  >
+                    Adicionar
+                  </button>
                 </div>
               </form>
-              <div className="mt-4 flex justify-between">
-                <button
-                  className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-                  onClick={toggleAddContact}
-                >
-                  Cancelar
-                </button>
-                <button
-                  className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-                  onClick={() => handleAdd(userId)}
-                >
-                  Adicionar
-                </button>
-              </div>
             </div>
           </div>
         </div>
