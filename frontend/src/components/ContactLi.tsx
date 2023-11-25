@@ -1,5 +1,6 @@
-import { Contact } from '@/app/edit/[id]/page'
+
 import { DialogProvider } from '@/contexts/DialogContext'
+import { Contact } from '@/interfaces/interfaces'
 import DelEditContactBtn from './buttons/DelEditContactBtn'
 
 export default function ContactLi({ contact }: { contact: Contact }) {

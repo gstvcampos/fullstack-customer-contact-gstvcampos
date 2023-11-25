@@ -1,18 +1,12 @@
 'use client'
 
 import { DialogContext } from '@/contexts/DialogContext'
+import { CreateContact } from '@/interfaces/interfaces'
+import { createContactSchema } from '@/schemas/schemas'
 import { api } from '@/services/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-export const createShema = z.object({
-  email: z.string().email('Formato de email invalido'),
-  phone: z.string().min(8, 'minimo 8 caracteres'),
-})
-
-type CreateShema = z.infer<typeof createShema>
 
 export default function AddContModal({ userId }: { userId: string }) {
   const { openAddContact, toggleAddContact } = useContext(DialogContext)
@@ -21,14 +15,14 @@ export default function AddContModal({ userId }: { userId: string }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateShema>({ resolver: zodResolver(createShema) })
+  } = useForm<CreateContact>({ resolver: zodResolver(createContactSchema) })
 
-  const handleAdd = async (data: CreateShema) => {
+  const handleAdd = async (data: CreateContact) => {
     await api.post(
       `https://customer-contact.onrender.com/users/${userId}/contacts/`,
       data,
     )
-    toggleAddContact()
+    window.location.reload()
   }
 
   return (

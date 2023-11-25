@@ -1,20 +1,12 @@
 'use client'
 
 import { DialogContext } from '@/contexts/DialogContext'
+import { CreateClient } from '@/interfaces/interfaces'
+import { createClientSchema } from '@/schemas/schemas'
 import { api } from '@/services/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-export const createShema = z.object({
-  fullName: z.string().min(3, 'minimo 3 caracteres'),
-  email: z.string().email('Formato de email invalido'),
-  password: z.string().min(8, 'minimo 8 caracteres'),
-  phone: z.string().min(8, 'minimo 8 caracteres'),
-})
-
-type CreateShema = z.infer<typeof createShema>
 
 export default function AddClientModal() {
   const { openAddClient, toggleAddClient } = useContext(DialogContext)
@@ -23,11 +15,11 @@ export default function AddClientModal() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateShema>({ resolver: zodResolver(createShema) })
+  } = useForm<CreateClient>({ resolver: zodResolver(createClientSchema) })
 
-  async function createUser(data: CreateShema) {
+  async function createUser(data: CreateClient) {
     await api.post('/users', data)
-    toggleAddClient()
+    window.location.reload()
   }
 
   return (

@@ -9,7 +9,7 @@ export default function DeleteUserModal({ userId }: { userId: string }) {
 
   const handleDelete = async (id: string) => {
     await api.delete(`https://customer-contact.onrender.com/users/${id}`)
-    toggleDelClient()
+    window.location.reload()
   }
 
   return (

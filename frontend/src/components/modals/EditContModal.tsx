@@ -1,18 +1,12 @@
 'use client'
 
 import { DialogContext } from '@/contexts/DialogContext'
+import { PartialContact } from '@/interfaces/interfaces'
+import { partialContactSchema } from '@/schemas/schemas'
 import { api } from '@/services/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-export const editContactSchema = z.object({
-  email: z.string().email('Formato de email invalido').optional(),
-  phone: z.string().min(8, 'minimo 8 caracteres').optional(),
-})
-
-type EditContactSchema = z.infer<typeof editContactSchema>
 
 export default function EditContModal({
   userId,
@@ -27,9 +21,9 @@ export default function EditContModal({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EditContactSchema>({ resolver: zodResolver(editContactSchema) })
+  } = useForm<PartialContact>({ resolver: zodResolver(partialContactSchema) })
 
-  const handleEdit = async (data: EditContactSchema) => {
+  const handleEdit = async (data: PartialContact) => {
     await api.patch(
       `https://customer-contact.onrender.com/users/${userId}/contacts/${contactId}`,
       data,

@@ -1,21 +1,14 @@
 import UserLi from '@/components/UserLi'
 import AddClientBtn from '@/components/buttons/AddClientBtn'
 import { DialogProvider } from '@/contexts/DialogContext'
-
-export interface User {
-  id: string
-  email: string
-  fullName: string
-  phone: string
-  createdAt: string
-}
+import { Client } from '@/interfaces/interfaces'
 
 export default async function Home() {
   const response = await fetch('https://customer-contact.onrender.com/users', {
     cache: 'no-store',
   })
 
-  const users: User[] = await response.json()
+  const clients: Client[] = await response.json()
 
   return (
     <main className="flex h-screen items-center justify-center bg-neutral-950">
@@ -46,8 +39,8 @@ export default async function Home() {
         <div className="h-1/2 rounded-md border-4 p-4">
           <h2 className="mb-2 font-bold text-gray-300">Lista de clientes</h2>
           <ul className="h-5/6 overflow-y-auto">
-            {users.map((user: User) => (
-              <UserLi key={user.id} user={user} />
+            {clients.map((client: Client) => (
+              <UserLi key={client.id} user={client} />
             ))}
           </ul>
         </div>

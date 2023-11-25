@@ -1,20 +1,12 @@
 'use client'
 
 import { DialogContext } from '@/contexts/DialogContext'
+import { PartialClient } from '@/interfaces/interfaces'
+import { partialClientSchema } from '@/schemas/schemas'
 import { api } from '@/services/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-
-export const editSchema = z.object({
-  fullName: z.string().min(3, 'minimo 3 caracteres').optional(),
-  email: z.string().email('Formato de email invalido').optional(),
-  password: z.string().min(8, 'minimo 8 caracteres').optional(),
-  phone: z.string().min(8, 'minimo 8 caracteres').optional(),
-})
-
-type EditSchema = z.infer<typeof editSchema>
 
 export default function EditClientModal({ userId }: { userId: string }) {
   const { openEditClient, toggleEditClient } = useContext(DialogContext)
@@ -23,14 +15,14 @@ export default function EditClientModal({ userId }: { userId: string }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EditSchema>({ resolver: zodResolver(editSchema) })
+  } = useForm<PartialClient>({ resolver: zodResolver(partialClientSchema) })
 
-  const handleEdit = async (data: EditSchema) => {
+  const handleEdit = async (data: PartialClient) => {
     await api.patch(
       `https://customer-contact.onrender.com/users/${userId}`,
       data,
     )
-    toggleEditClient()
+    window.location.reload()
   }
 
   return (

@@ -17,7 +17,7 @@ export default function DeleteContModal({
     await api.delete(
       `https://customer-contact.onrender.com/users/${userId}/contacts/${id}`,
     )
-    toggleDelContact()
+    window.location.reload()
   }
   return (
     <>
