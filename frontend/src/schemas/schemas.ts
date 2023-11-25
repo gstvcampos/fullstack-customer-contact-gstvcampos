@@ -1,4 +1,4 @@
-import { z } from "zod"
+import { z } from 'zod'
 
 export const clientSchema = z.object({
   id: z.string(),
@@ -9,7 +9,7 @@ export const clientSchema = z.object({
 })
 
 export const createClientSchema = clientSchema.omit({
-  id: true
+  id: true,
 })
 
 export const partialClientSchema = createClientSchema.partial()
@@ -23,7 +23,7 @@ export const contactSchema = z.object({
 
 export const createContactSchema = contactSchema.omit({
   id: true,
-  userId: true
+  userId: true,
 })
 
 export const partialContactSchema = createContactSchema.partial()
