@@ -1,4 +1,3 @@
-
 import { DialogProvider } from '@/contexts/DialogContext'
 import { Client } from '@/interfaces/interfaces'
 import DelEditClientBtn from './buttons/DelEditClientBtn'

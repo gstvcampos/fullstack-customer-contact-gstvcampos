@@ -40,7 +40,7 @@ export default async function Home() {
           <h2 className="mb-2 font-bold text-gray-300">Lista de clientes</h2>
           <ul className="h-5/6 overflow-y-auto">
             {clients.map((client: Client) => (
-              <UserLi key={client.id} user={client} />
+              <UserLi key={client.id} client={client} />
             ))}
           </ul>
         </div>
