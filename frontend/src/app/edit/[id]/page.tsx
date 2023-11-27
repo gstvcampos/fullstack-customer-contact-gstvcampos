@@ -40,7 +40,7 @@ export default async function Edit({ params }: EditClientProps) {
               Informações do Cliente
             </h1>
             <DialogProvider>
-              <EditClientBtn userId={client.id} />
+              <EditClientBtn client={client} />
             </DialogProvider>
           </div>
           <div className="mb-4">

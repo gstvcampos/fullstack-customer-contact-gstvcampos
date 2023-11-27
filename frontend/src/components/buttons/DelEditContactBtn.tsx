@@ -1,6 +1,7 @@
 'use client'
 
 import { DialogContext } from '@/contexts/DialogContext'
+import { Contact } from '@/interfaces/interfaces'
 import { useContext } from 'react'
 import { MdDeleteForever, MdOutlineEdit } from 'react-icons/md'
 import DeleteContModal from '../modals/DeleteContModal'
@@ -8,10 +9,10 @@ import EditContModal from '../modals/EditContModal'
 
 export default function DelEditContactBtn({
   userId,
-  contactId,
+  contact,
 }: {
   userId: string
-  contactId: string
+  contact: Contact
 }) {
   const { toggleEditContact, toggleDelContact } = useContext(DialogContext)
 
@@ -23,8 +24,8 @@ export default function DelEditContactBtn({
       <button className="m-1" onClick={toggleDelContact}>
         <MdDeleteForever size={20} />
       </button>
-      <DeleteContModal userId={userId} contactId={contactId} />
-      <EditContModal userId={userId} contactId={contactId} />
+      <DeleteContModal userId={userId} contactId={contact.id} />
+      <EditContModal userId={userId} contact={contact} />
     </div>
   )
 }

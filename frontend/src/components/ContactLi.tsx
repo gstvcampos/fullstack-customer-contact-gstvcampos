@@ -13,7 +13,7 @@ export default function ContactLi({ contact }: { contact: Contact }) {
         <p className="text-sm">{contact.phone}</p>
       </div>
       <DialogProvider>
-        <DelEditContactBtn userId={contact.userId} contactId={contact.id} />
+        <DelEditContactBtn userId={contact.userId} contact={contact} />
       </DialogProvider>
     </li>
   )

@@ -1,7 +1,7 @@
 'use client'
 
 import { DialogContext } from '@/contexts/DialogContext'
-import { PartialContact } from '@/interfaces/interfaces'
+import { Contact, PartialContact } from '@/interfaces/interfaces'
 import { partialContactSchema } from '@/schemas/schemas'
 import { api } from '@/services/api'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,10 +10,10 @@ import { useForm } from 'react-hook-form'
 
 export default function EditContModal({
   userId,
-  contactId,
+  contact,
 }: {
   userId: string
-  contactId: string
+  contact: Contact
 }) {
   const { openEditContact, toggleEditContact } = useContext(DialogContext)
 
@@ -21,11 +21,17 @@ export default function EditContModal({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PartialContact>({ resolver: zodResolver(partialContactSchema) })
+  } = useForm<PartialContact>({ resolver: zodResolver(partialContactSchema), defaultValues: {
+    email: contact.email,
+    phone: contact.phone
+  } })
 
   const handleEdit = async (data: PartialContact) => {
+    if(data.email === contact.email) {
+      delete data.email
+    }
     await api.patch(
-      `https://customer-contact.onrender.com/users/${userId}/contacts/${contactId}`,
+      `https://customer-contact.onrender.com/users/${userId}/contacts/${contact.id}`,
       data,
     )
     window.location.reload()

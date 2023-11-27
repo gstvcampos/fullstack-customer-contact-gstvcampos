@@ -1,25 +1,32 @@
 'use client'
 
 import { DialogContext } from '@/contexts/DialogContext'
-import { PartialClient } from '@/interfaces/interfaces'
+import { Client, PartialClient } from '@/interfaces/interfaces'
 import { partialClientSchema } from '@/schemas/schemas'
 import { api } from '@/services/api'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 
-export default function EditClientModal({ userId }: { userId: string }) {
+export default function EditClientModal({ client }: { client: Client }) {
   const { openEditClient, toggleEditClient } = useContext(DialogContext)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PartialClient>({ resolver: zodResolver(partialClientSchema) })
+  } = useForm<PartialClient>({ resolver: zodResolver(partialClientSchema), defaultValues: {
+    fullName: client.fullName,
+    email: client.email,
+    phone: client.phone
+  } })
 
   const handleEdit = async (data: PartialClient) => {
+    if(data.email === client.email) {
+      delete data.email
+    }
     await api.patch(
-      `https://customer-contact.onrender.com/users/${userId}`,
+      `https://customer-contact.onrender.com/users/${client.id}`,
       data,
     )
     window.location.reload()
@@ -64,22 +71,6 @@ export default function EditClientModal({ userId }: { userId: string }) {
                   {errors.email ? (
                     <p className="text-xs text-red-600">
                       {errors.email.message}
-                    </p>
-                  ) : (
-                    <p></p>
-                  )}
-                </div>
-                <div className="mb-4">
-                  <label className="font-bold text-gray-300">Senha</label>
-                  <input
-                    {...register('password')}
-                    className="mt-1 w-full rounded-md border bg-zinc-800 p-2"
-                    type="password"
-                    placeholder="Senha"
-                  />
-                  {errors.password ? (
-                    <p className="text-xs text-red-600">
-                      {errors.password.message}
                     </p>
                   ) : (
                     <p></p>
