@@ -34,7 +34,7 @@ export class UsersService {
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     await this.findUserOrError(id);
-    await this.findUniqueEmail(updateUserDto.email);
+    if (updateUserDto.email) await this.findUniqueEmail(updateUserDto.email);
     const updateUser = await this.prisma.user.update({
       where: { id },
       data: { ...updateUserDto },

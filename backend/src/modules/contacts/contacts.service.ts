@@ -38,7 +38,9 @@ export class ContactsService {
 
   async update(userId: string, id: string, updateContactDto: UpdateContactDto) {
     await this.userService.findUserOrError(userId);
-    await this.userService.findUniqueEmail(updateContactDto.email);
+    if (updateContactDto.email) {
+      await this.userService.findUniqueEmail(updateContactDto.email);
+    }
     await this.findOne(userId, id);
     const updateContact = await this.prisma.contact.update({
       where: { userId: userId, id: id },
