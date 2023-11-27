@@ -15,14 +15,17 @@ export default function EditClientModal({ client }: { client: Client }) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PartialClient>({ resolver: zodResolver(partialClientSchema), defaultValues: {
-    fullName: client.fullName,
-    email: client.email,
-    phone: client.phone
-  } })
+  } = useForm<PartialClient>({
+    resolver: zodResolver(partialClientSchema),
+    defaultValues: {
+      fullName: client.fullName,
+      email: client.email,
+      phone: client.phone,
+    },
+  })
 
   const handleEdit = async (data: PartialClient) => {
-    if(data.email === client.email) {
+    if (data.email === client.email) {
       delete data.email
     }
     await api.patch(

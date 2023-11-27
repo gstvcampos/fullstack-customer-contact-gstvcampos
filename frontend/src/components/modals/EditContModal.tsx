@@ -21,13 +21,16 @@ export default function EditContModal({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PartialContact>({ resolver: zodResolver(partialContactSchema), defaultValues: {
-    email: contact.email,
-    phone: contact.phone
-  } })
+  } = useForm<PartialContact>({
+    resolver: zodResolver(partialContactSchema),
+    defaultValues: {
+      email: contact.email,
+      phone: contact.phone,
+    },
+  })
 
   const handleEdit = async (data: PartialContact) => {
-    if(data.email === contact.email) {
+    if (data.email === contact.email) {
       delete data.email
     }
     await api.patch(
