@@ -23,7 +23,8 @@ Front-end: Next.js e Tailwind CSS
 3. Em seguida, acesse o diretório do projeto "cd backend"
 4. Instale as dependências "npm install"
 5. Crie um arquivo ".env" com base no exemplo fornecido em ".env.exemplo"
-7. execute o comando "npm run start:dev" iniciar o servidor em modo de desenvolvimento
+7. Então crie as migrações "npx prisma migrate dev"
+8. Execute o comando "npm run start:dev" para iniciar o servidor em modo de desenvolvimento
 
 [Link da Documentação](https://customer-contact.onrender.com/api#/Users)
 
