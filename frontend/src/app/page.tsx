@@ -11,8 +11,8 @@ export default async function Home() {
   const clients: Client[] = await response.json()
 
   return (
-    <main className="flex h-screen items-center justify-center bg-neutral-950">
-      <div className="h-5/6 w-96 rounded-md border bg-zinc-900 p-4">
+    <main className="flex h-full items-center justify-center bg-neutral-950">
+      <div className="h-5/6 w-96 overflow-auto rounded-md border bg-zinc-900 p-4">
         <header className="mb-6">
           <h1 className="mb-2 text-xl font-bold text-gray-300">
             Banco de dados interno
